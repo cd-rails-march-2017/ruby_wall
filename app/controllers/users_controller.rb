@@ -14,4 +14,9 @@ class UsersController < ApplicationController
     end
     redirect_to '/posts'
   end
+
+  def logout
+    session.clear
+    redirect_to '/'
+  end
 end
