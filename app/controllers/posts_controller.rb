@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def index
-    unless session[:user]
+    unless session[:user_id]
       redirect_to "/"
     end
     @posts = Post.all.order('created_at DESC')
