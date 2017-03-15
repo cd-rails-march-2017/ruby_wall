@@ -3,12 +3,13 @@ class PostsController < ApplicationController
     unless session[:user]
       redirect_to "/"
     end
-    @posts = Post.all
+    @posts = Post.all.order('created_at DESC')
     @comments = Comment.all
+    @user = session[:username]
   end
 
   def create
-    Post.create(content: params[:content], user: session[:user])
+    Post.create(content: params[:content], user_id: session[:user_id])
     redirect_to "/posts"
   end
 

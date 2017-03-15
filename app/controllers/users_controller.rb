@@ -3,12 +3,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.where("username = ?", params[:username])
+    user = User.find_by_username(params[:username])
     if user
-      session[:user] = user
+      session[:username] = user.username
+      session[:user_id] = user.id
     else
       user = User.create(username: params[:username])
-      session[:user] = user
+      session[:username] = user.username
+      session[:user_id] = user.id
     end
     redirect_to '/posts'
   end
