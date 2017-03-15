@@ -1,22 +1,29 @@
 <h1>The Wall</h1>
-<h3>Welcome <%= @user %></h3>
+<h2>Welcome <%= @user %></h2>
 <form action="/posts/create" method="post">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-  <input type="text" name="content">
+  <input type="text" name="content" style="width: 300px; height: 40px;">
   <input type="submit" value="Submit Post">
 </form>
 
 <% @posts.each do |post| %>
-  <h5><%= post.content %> (<%= post.created_at.strftime('%m/%d/%y at %I:%M:%P') %>)</h5>
-  <form action="/comments/create" method="post">
+  <h3 style="display: inline-block;"><%= post.content %> (<%= post.created_at.strftime('%m/%d/%y at %I:%M:%P') %>)</h3>
+  <% if post.user_id == session[:user_id] %>
+    <a href="/posts/<%= post.id %>" data-method="delete" style="color: red;">Delete</a>
+  <% end %>
+  <% @comments.each do |comment|%>
+    <% if comment.post.id == post.id %>
+      <p style="margin-left: 30px;"><%= comment.content %> (<%= comment.created_at.strftime('%m/%d/%y at %I:%M:%P') %>)
+      <% if comment.user_id == session[:user_id]%>
+        <a href="/comments/<%= comment.id %>" data-method="delete" style="color: red;">Delete</a>
+      <% end %>
+      </p>
+    <% end %>
+  <% end %>
+  <form action="/comments/create" method="post" style="margin-left: 30px;">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" value="<%= post.id %>" name="id">
     <input type="text" name="content">
     <input type="submit" value="Submit Comment">
   </form>
-  <% @comments.each do |comment|%>
-    <% if comment.post.id == post.id %>
-      <p><%= comment.content %></p>
-    <% end %>
-  <% end %>
 <% end %>

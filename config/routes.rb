@@ -4,10 +4,10 @@ Rails.application.routes.draw do
 
   get 'posts/' => 'posts#index'
   post 'posts/create' => 'posts#create'
-  delete 'posts/delete'=> 'posts#destroy'
+  delete 'posts/:id'=> 'posts#destroy'
 
   post 'comments/create' => 'comments#create'
-  delete 'comments/delete' => 'comments#destroy'
+  delete 'comments/:id' => 'comments#destroy'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
